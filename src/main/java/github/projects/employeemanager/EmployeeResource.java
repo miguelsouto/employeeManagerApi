@@ -2,6 +2,7 @@ package github.projects.employeemanager;
 
 import github.projects.employeemanager.model.Employee;
 import github.projects.employeemanager.service.EmployeeService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,13 @@ public class EmployeeResource {
         return new ResponseEntity<>(newEmployee, HttpStatus.CREATED);
     }
 
-    @PutMapping("/delete/{id}")
+    @PutMapping("/update")
+    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
+        Employee updateEmployee = employeeService.updateEmployee(employee);
+        return new ResponseEntity<>(updateEmployee, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable("id") Long id) {
         employeeService.deleteEmployee(id);
         return new ResponseEntity<>(HttpStatus.OK);
